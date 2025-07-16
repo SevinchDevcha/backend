@@ -31,31 +31,31 @@ class NewsController {
 		res.status(201).json({ success: true, msg: 'Ohh my good 😍' })
 	}
 
-	static update =async (req, res) => {
+	static update = async (req, res) => {
 		const { id } = req.params
 		const { title, desc } = req.body
-		const news =await newsModel.findById(id)
-		if(!news) {
-			throw new HttpException(400,'Bu dock topilmadi')
+		const news = await newsModel.findById(id)
+		if (!news) {
+			throw new HttpException(400, 'Bu dock topilmadi')
 		}
-    let example = {}
-		if(title && title !== news.title) {
-      example.title=title
+		let example = {}
+		if (title && title !== news.title) {
+			example.title = title
 		}
-		if(desc && desc !== news.desc) {
-      example.desc=desc
+		if (desc && desc !== news.desc) {
+			example.desc = desc
 		}
-		await newsModel.findByIdAndUpdate(id , example)
+		await newsModel.findByIdAndUpdate(id, example)
 		res.status(201).json({ success: true, msg: 'Ohh my good 😍' })
 	}
 
-	static getById =async (req, res) => {
+	static getById = async (req, res) => {
 		const { id } = req.params
-		const news =await newsModel.findById(id)
-		if(!news) {
-			throw new HttpException(400,'Bu dock topilmadi')
+		const news = await newsModel.findById(id)
+		if (!news) {
+			throw new HttpException(400, 'Bu dock topilmadi')
 		}
-		res.status(201).json({ success: true, data:news })
+		res.status(201).json({ success: true, data: news })
 	}
 }
 

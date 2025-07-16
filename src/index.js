@@ -4,10 +4,11 @@ const { PORT } = require('./utils/secret.js')
 const { main_router } = require('./routers/index.js')
 const { ConnectDB } = require('./utils/config.database.js')
 const { errorMiddleware } = require('./middleware/error.middleware.js')
+const cors = require("cors")
 
 void ConnectDB()
 
-app.use(express.cors({origin:"*"}))
+app.use(cors({origin:"*"}))
 app.use(express.json())
 
 app.get("/",(req , res)=> {
