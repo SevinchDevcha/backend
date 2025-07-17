@@ -1,6 +1,7 @@
 const { StatusCodes } = require('http-status-codes')
 const { NewsModel } = require('../../models/news/news.model')
 const { HttpException } = require('../../utils/http-exception.js')
+const { UploadModel } = require('../../models/upload/upload.model.js')
 
 class NewsController {
 	static getAll = async (req, res) => {
@@ -31,8 +32,22 @@ class NewsController {
 	}
 
 	static add = async (req, res) => {
-		const { title, desc } = req.body
-		await NewsModel.create({ title, desc })
+		const { title, desc, image } = req.body
+
+		const save_file = await UploadModel.findOne({ file_path: image })
+
+		if (!save_file) {
+			throw new HttpException(StatusCodes.NOT_FOUND, 'Not found file')
+		}
+
+		await NewsModel.create({
+			title,
+			desc,
+			image,
+		})
+
+		await save_file.updateOne({ is_use: true, where_used: 'news' })
+
 		res.status(201).json({ success: true, msg: 'juda yaxshi qoyilmaqom' })
 	}
 

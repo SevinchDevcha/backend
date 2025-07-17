@@ -1,24 +1,29 @@
-const express = require("express")
+const express = require('express')
 const app = express()
 const { PORT } = require('./utils/secret.js')
 const { main_router } = require('./routers/index.js')
 const { ConnectDB } = require('./utils/config.database.js')
-const {errorMiddleware } = require('./middleware/errorMiddleware.js')
+const { errorMiddleware } = require('./middleware/errorMiddleware.js')
+const cors = require('cors')
+
+app.use(cors({ origin: '*' }))
+
+app.use(express.static('public'))
 
 void ConnectDB()
 
 app.use(express.json())
 
-app.get("/",(req , res)=> {
- res.status(201).json({success:true})
+app.get('/', (req, res) => {
+	res.status(201).json({ success: true })
 })
 
-main_router.forEach((value)=> {
-	app.use(value.path , value.router)
+main_router.forEach(value => {
+	app.use(value.path, value.router)
 })
 
 app.use(errorMiddleware)
 
-app.listen(PORT  , ()=> {
-	console.log(`Explore ports http://locaolhost:${PORT}`);
+app.listen(PORT, () => {
+	console.log(`Explore ports http://locaolhost:${PORT}`)
 })

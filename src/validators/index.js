@@ -1,20 +1,18 @@
 const { validationResult } = require('express-validator')
 const { StatusCodes } = require('http-status-codes')
 
-const ExpressValidate = async ( req , res , next )=> {
+const ExpressValidate = async (req, res, next) => {
 	const errors = await validationResult(req)
 
-	if(errors.isEmpty()) {
+	if (errors.isEmpty()) {
 		return next()
 	}
 
-	let message = ""
+	let message = ''
 
-	errors.array().map(item => (
-		message+= item.msg +" ,"
-	))
+	errors.array().map(item => (message += item.msg + ' ,'))
 
-	res.status(StatusCodes.BAD_REQUEST).json({success:false , msg:message})
+	res.status(StatusCodes.BAD_REQUEST).json({ success: false, msg: message })
 }
 
-module.exports = {ExpressValidate}
+module.exports = { ExpressValidate }

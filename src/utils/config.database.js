@@ -5,4 +5,4 @@ const ConnectDB = async () => {
 	console.log('ConnectDB !')
 }
 
-module.exports = {ConnectDB}
+module.exports = { ConnectDB }
