@@ -2,6 +2,8 @@ const { StatusCodes } = require('http-status-codes')
 const { NewsModel } = require('../../models/news/news.model')
 const { HttpException } = require('../../utils/http-exception.js')
 const { UploadModel } = require('../../models/upload/upload.model.js')
+// const fs = require("fs")
+// const path = require("path")
 
 class NewsController {
 	static getAll = async (req, res) => {
@@ -67,6 +69,27 @@ class NewsController {
 			throw new HttpException(500, 'doc topilmadi')
 		}
 		await news.deleteOne()
+
+    await UploadModel.updateOne(
+			{file_path:news.image},
+			{is_use:false,where_used:""}
+		)		
+
+		// if(news.image) {
+    //   const filePath = path.join(
+		// 		__dirname,
+		// 		"..",
+		// 		"..",
+		// 		"..",
+		// 		"public",
+		// 		news.image
+		// 	)
+		// 	fs.rm(filePath,(err)=>{
+		// 		if(err) {
+		// 			console.error("Errors")
+		// 		}
+		// 	})
+		// }
 		res
 			.status(StatusCodes.CREATED)
 			.json({ success: true, msg: 'hammasi yaxshi' })
